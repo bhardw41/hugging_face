@@ -2,6 +2,14 @@ channels:
   - defaults
   - pytorch
 dependencies:
+  - pip
   - jupyter
   - scikit-learn
   - pytorch
+  - matplotlib
+  - pillow
+  - imageio
+  - pip:
+     - transformers
+     - timm
+     
