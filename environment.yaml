@@ -1,0 +1,7 @@
+channels:
+  - defaults
+  - pytorch
+dependencies:
+  - jupyter
+  - scikit-learn
+  - pytorch
