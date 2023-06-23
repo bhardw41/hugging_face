@@ -5,6 +5,7 @@ dependencies:
   - pip
   - jupyter
   - scikit-learn
+  - scikit-image
   - pytorch
   - matplotlib
   - pillow
