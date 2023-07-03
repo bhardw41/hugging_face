@@ -15,3 +15,4 @@ dependencies:
      - timm
      - selenium
      - webdriver_manager
+     - git+git@github.com:see-insight/see-segment.git
