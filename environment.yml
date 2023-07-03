@@ -13,4 +13,5 @@ dependencies:
   - pip:
      - transformers
      - timm
-     
+     - selenium
+     - webdriver_manager
