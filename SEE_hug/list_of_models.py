@@ -7,8 +7,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
-from pathlib import Path
+from transformers import pipeline
 
+import matplotlib.pylab as plt
+import numpy as npd
+from see import Segment_Fitness as sf
+
+from pathlib import Path
 
 def get_models():
     install_path = ChromeDriverManager().install()
@@ -37,9 +42,9 @@ def get_models():
 
         nummodels = len(h4s)
         page = page + 1
-#         driver.close()
+    driver.close()
     return models
-from pathlib import Path
+
 
 
 def save_models(models, filename='modelfile.txt', directory='.'):
@@ -50,9 +55,6 @@ def save_models(models, filename='modelfile.txt', directory='.'):
         file.close()
     print(f"The list has been saved as a text file at {path}.")
 
-
-
-
 def load_models(filename='modelfile.txt', directory='.'):
     file_path = Path(directory) / filename
     models = []
@@ -61,5 +63,35 @@ def load_models(filename='modelfile.txt', directory='.'):
         models.extend(model_list)
     return models
 
+def fetch_models(modelfile= 'modelfile.txt'):
+    model_file = Path(modelfile)
+    if model_file.is_file():
+        models = load_models(modelfile)
+    else:
+        models = get_models()
+        save_models(models, modelfile)
+    return models
 
+def checkall(image, GT_image, models, display=False):
+    fitness = []
+    # Iterate over the models and display segmented images
+    
+    fig, axs = plt.subplots(1, len(models))
+    
+    for i, model_name in enumerate(models):
+        print(f"Checking model {i} {model_name}")
+        # Initialize an image segmentation pipeline
+        try:
+            segmentation_pipeline = pipeline("image-segmentation", model=model_name)
+            outputs = segmentation_pipeline(image)
+            inferred_segmentation = outputs[0]['mask']
 
+            # Display the segmented image in the corresponding subplot
+            ax = axs[i] if len(models) > 1 else axs
+            ax.imshow(inferred_segmentation)
+            fit = sf.FitnessFunction(np.array(inferred_segmentation), GT_image)
+            fitness.append(fit[0])
+        except Exception as error:
+            # handle the exception
+            print("An ERROR occurred:", error)
+    return fitness
