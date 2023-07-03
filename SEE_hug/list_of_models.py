@@ -1,7 +1,3 @@
-import selenium
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
@@ -14,6 +10,10 @@ from see import Segment_Fitness as sf
 from pathlib import Path
 
 def get_models():
+    import selenium
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from webdriver_manager.chrome import ChromeDriverManager
     install_path = ChromeDriverManager().install()
     #Setup Chrome driver 
     options = Options()
