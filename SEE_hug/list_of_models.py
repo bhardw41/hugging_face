@@ -1,5 +1,3 @@
-#Written by Dr Dirk Colbry
-
 import selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -76,20 +74,23 @@ def checkall(image, GT_image, models, display=False):
     fitness = []
     # Iterate over the models and display segmented images
     
-    fig, axs = plt.subplots(1, len(models))
+    if display:
+        fig, axs = plt.subplots(1, len(models))
     
     for i, model_name in enumerate(models):
         print(f"Checking model {i} {model_name}")
         # Initialize an image segmentation pipeline
         try:
-            segmentation_pipeline = pipeline("image-segmentation", model=model_name)
+            segmentation_pipeline = pipeline("image-segmentation", trust_remote_code=True, model=model_name)
             outputs = segmentation_pipeline(image)
             inferred_segmentation = outputs[0]['mask']
 
             # Display the segmented image in the corresponding subplot
-            ax = axs[i] if len(models) > 1 else axs
-            ax.imshow(inferred_segmentation)
+            if display:
+                ax = axs[i] if len(models) > 1 else axs
+                ax.imshow(inferred_segmentation)
             fit = sf.FitnessFunction(np.array(inferred_segmentation), GT_image)
+            print(f"#FITNESS {fit}, {mdoel_name}")
             fitness.append(fit[0])
         except Exception as error:
             # handle the exception
