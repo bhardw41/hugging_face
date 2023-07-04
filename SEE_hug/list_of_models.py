@@ -4,7 +4,7 @@ import os
 from transformers import pipeline
 
 import matplotlib.pylab as plt
-import numpy as npd
+import numpy as np
 from see import Segment_Fitness as sf
 
 from pathlib import Path
@@ -43,7 +43,20 @@ def get_models():
     driver.close()
     return models
 
+def get_imagefiles(directory='./Images'):
+    imagepath = Path(directory)
+    images = imagepath.glob('*')
+    inferred = []
+    GT = []
+    for image in images:
+        if "GT" in image.name:
+            GT.append(image)
 
+        elif "GT" not in image.name and "ipy" not in image.name:
+            inferred.append(image)
+    GT_paths = sorted(GT)
+    input_paths = sorted(inferred)
+    return zip(input_paths, GT_paths)
 
 def save_models(models, filename='modelfile.txt', directory='.'):
     path = Path(directory) / filename
@@ -90,9 +103,11 @@ def checkall(image, GT_image, models, display=False):
                 ax = axs[i] if len(models) > 1 else axs
                 ax.imshow(inferred_segmentation)
             fit = sf.FitnessFunction(np.array(inferred_segmentation), GT_image)
-            print(f"#FITNESS {fit}, {mdoel_name}")
+
             fitness.append(fit[0])
         except Exception as error:
             # handle the exception
-            print("An ERROR occurred:", error)
+            #print("An ERROR occurred:", error)
+            fit = f'ERROR: {error}'
+        print(f"#FITNESS {fit}, {model_name}")           
     return fitness

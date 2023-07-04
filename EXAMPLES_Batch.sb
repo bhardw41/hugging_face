@@ -1,20 +1,21 @@
 #!/bin/bash
-#SBATCH --array=1-150
+#SBATCH --array=0-8
 #SBATCH --time=24:00:00
 #SBATCH --mem=6gb
-#SBATCH --job-name=SEE-Benchmark
-#SBATCH --output=./EXAMPLES_Benchmark_Output/slurm-%A_%a.out
+#SBATCH --gres=gpu:1
+#SBATCH --job-name=Hugging-face
+#SBATCH --output=./EXAMPLES_Output/slurm-%A_%a.out
 
-cd see-segment; git log -1;cd .. 
+git log -1
 
-echo "RunExamples Number $SLURM_ARRAY_TASK_ID"
+echo "Run Examples Number $SLURM_ARRAY_TASK_ID"
 
 singularity exec -B /usr/bin/:/sysbin/ \
                  --env PATH=/miniconda3/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sysbin/ \
                  --env-file /opt/software/powertools/share/jupyter.env \
                  --writable-tmpfs \
-                 centos7.sif \
-                 python RunAndHug.py $SLURM_ARRAY_TASK_ID $(( $SLURM_JOB_ID + $SLURM_ARRAY_TASK_ID ))
+                 centos.sif \
+                 python HugAndRun.py $SLURM_ARRAY_TASK_ID 
 
 echo "FINNISHED RUNNING JOB"
 
