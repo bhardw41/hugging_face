@@ -109,5 +109,5 @@ def checkall(image, GT_image, models, display=False):
             # handle the exception
             #print("An ERROR occurred:", error)
             fit = f'ERROR: {error}'
-        print(f"#FITNESS {fit}, {model_name}")           
+        print(f"#FITNESS {fit} @ {model_name}")           
     return fitness

@@ -18,7 +18,7 @@ if len(sys.argv) < 3:
     imagenum = int(sys.argv[1])
     imagenum = imagenum % len(image_names) # if imagenum > number of images
     print(f"There are {len(image_names)} in the folder")
-    imagename,GTname = image_namesS[imagenum]
+    imagename,GTname = image_names[imagenum]
 else:
     imagename = sys.argv[1]
     GTname = sys.argv[2]
