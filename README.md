@@ -22,3 +22,14 @@ or
 
 ```jupyter notebook```
 
+# HPCC Instructions
+
+I think I got almost all of this working.  The big part missing is loading the correct libraries in the singularity image.  However, here are the basic steps:
+
+- Clone repository onto the HPCC
+- Run the HPCC_install.sh script to build singularity image.
+- Open Jupyter onDemand using this new image.  Use EXAMPLE_hug.ipynb in jupyter to identify missing libraries and then do "Conda install" or "pip install" from the jupyter terminal to install the missing libraries.
+- Submit a job using Example_output.sb
+- Review results by opening Review_HPCC.ipynb in jupyter and seeing the final table. 
+
+That should work.  make sure we take notes on where we get stuck so we can improve the instructions. I will also add these to the README.md file. 
