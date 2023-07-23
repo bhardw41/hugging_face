@@ -5,6 +5,7 @@ from transformers import pipeline
 
 import matplotlib.pylab as plt
 import numpy as np
+import see-segment
 from see import Segment_Fitness as sf
 
 from pathlib import Path
