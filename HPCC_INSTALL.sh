@@ -23,7 +23,7 @@ else
 
    #Update overlay with see-segment enviornment.
    overlay_exec conda env update --name base --file ./see-segment/environment.yml
-   overlay_exec conda env update --name base --file ./environment.yml
+#    overlay_exec conda env update --name base --file ./environment.yml
 fi
 
 if [ -f centos.sif ]
